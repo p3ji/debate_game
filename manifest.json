@@ -1,0 +1,16 @@
+{
+  "name": "Kids Debate Showdown",
+  "short_name": "Debate",
+  "description": "A fun pass-and-play debate game for kids!",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FF6B6B",
+  "theme_color": "#FF6B6B",
+  "icons": [
+    {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Star_icon_1.svg/512px-Star_icon_1.svg.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
