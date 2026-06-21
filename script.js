@@ -191,6 +191,16 @@ function checkThemeSelection() {
     document.getElementById('theme-all').checked = allChecked;
 }
 
+function openSettings() {
+    playClick();
+    document.getElementById('settings-modal').classList.add('active');
+}
+
+function closeSettings() {
+    playClick();
+    document.getElementById('settings-modal').classList.remove('active');
+}
+
 // --- Game Flow Functions ---
 function startGame() {
     playClick();

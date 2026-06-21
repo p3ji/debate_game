@@ -30,44 +30,54 @@
                 <input type="text" id="team2-name" placeholder="e.g. Blue Sharks" value="Team 2">
             </div>
             
-            <div class="settings-group">
-                <div class="setting-item">
-                    <label>Themes (Select at least one):</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-container">Select All
-                            <input type="checkbox" id="theme-all" checked onchange="toggleAllThemes(this)">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="checkbox-container">🤪 Silly & Fun
-                            <input type="checkbox" class="theme-check" value="silly" checked onchange="checkThemeSelection()">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="checkbox-container">🏫 School & Education
-                            <input type="checkbox" class="theme-check" value="school" checked onchange="checkThemeSelection()">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="checkbox-container">🍔 Food & Drink
-                            <input type="checkbox" class="theme-check" value="food" checked onchange="checkThemeSelection()">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="checkbox-container">🐶 Animals & Pets
-                            <input type="checkbox" class="theme-check" value="animals" checked onchange="checkThemeSelection()">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="checkbox-container">🚀 Technology & Future
-                            <input type="checkbox" class="theme-check" value="tech" checked onchange="checkThemeSelection()">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="setting-item">
-                    <label for="timer-duration">Timer (minutes):</label>
-                    <input type="number" id="timer-duration" min="1" max="10" value="1">
-                </div>
-            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 1.5rem; background: rgba(255,255,255,0.8); color: var(--dark);" onclick="openSettings()">⚙️ Game Settings</button>
             
             <button class="btn btn-primary btn-large" onclick="startGame()">Start Match!</button>
         </section>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content glass-panel" style="background: var(--primary);">
+                <h2 style="color: var(--light);">Game Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label style="color: var(--light);">Themes (Select at least one):</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-container" style="color: var(--light);">Select All
+                                <input type="checkbox" id="theme-all" checked onchange="toggleAllThemes(this)">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container" style="color: var(--light);">🤪 Silly & Fun
+                                <input type="checkbox" class="theme-check" value="silly" checked onchange="checkThemeSelection()">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container" style="color: var(--light);">🏫 School & Education
+                                <input type="checkbox" class="theme-check" value="school" checked onchange="checkThemeSelection()">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container" style="color: var(--light);">🍔 Food & Drink
+                                <input type="checkbox" class="theme-check" value="food" checked onchange="checkThemeSelection()">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container" style="color: var(--light);">🐶 Animals & Pets
+                                <input type="checkbox" class="theme-check" value="animals" checked onchange="checkThemeSelection()">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container" style="color: var(--light);">🚀 Tech & Future
+                                <input type="checkbox" class="theme-check" value="tech" checked onchange="checkThemeSelection()">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label for="timer-duration" style="color: var(--light);">Timer (minutes):</label>
+                        <input type="number" id="timer-duration" min="1" max="10" value="1">
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="closeSettings()">Save & Close</button>
+            </div>
+        </div>
+
 
         <!-- Screen: Topic Reveal -->
         <section id="screen-topic" class="screen">
