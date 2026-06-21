@@ -73,6 +73,75 @@ let gameState = {
     timeLeft: 0
 };
 
+// --- Sound System (Web Audio API) ---
+let audioCtx;
+function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+}
+
+function playClick() {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.5, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.1);
+}
+
+function playTick() {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.05);
+}
+
+function playBuzzer() {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(150, ctx.currentTime);
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 1);
+}
+
+function playCheer() {
+    const ctx = getAudioCtx();
+    const freqs = [440, 554.37, 659.25, 880]; // A major arpeggio
+    freqs.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+        gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.1);
+        gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + i * 0.1 + 0.1);
+        gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.1 + 1);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + i * 0.1);
+        osc.stop(ctx.currentTime + i * 0.1 + 1);
+    });
+}
+
 // --- DOM Elements ---
 const screens = document.querySelectorAll('.screen');
 
@@ -124,6 +193,7 @@ function checkThemeSelection() {
 
 // --- Game Flow Functions ---
 function startGame() {
+    playClick();
     // 1. Get Settings
     gameState.team1Name = t1NameInput.value.trim() || "Team 1";
     gameState.team2Name = t2NameInput.value.trim() || "Team 2";
@@ -161,6 +231,7 @@ function startGame() {
 }
 
 function startDebatePhase() {
+    playClick();
     gameState.currentTurn = 1;
     showPassDeviceScreen();
 }
@@ -172,6 +243,7 @@ function showPassDeviceScreen() {
 }
 
 function startTimer() {
+    playClick();
     // Setup Debate Screen
     const speakerName = gameState.currentTurn === 1 ? gameState.team1Name : gameState.team2Name;
     currentSpeakerText.textContent = `${speakerName}'s Turn`;
@@ -190,6 +262,7 @@ function startTimer() {
         
         if (gameState.timeLeft <= 0) {
             clearInterval(gameState.timerInterval);
+            playBuzzer();
             handleTurnEnd();
         }
     }, 1000);
@@ -200,7 +273,8 @@ function updateTimerDisplay() {
     const secs = gameState.timeLeft % 60;
     timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     
-    if (gameState.timeLeft <= 10) {
+    if (gameState.timeLeft <= 10 && gameState.timeLeft > 0) {
+        playTick();
         timerDisplay.style.color = '#FF4757';
         timerDisplay.style.transform = 'scale(1.1)';
     } else {
@@ -210,6 +284,7 @@ function updateTimerDisplay() {
 }
 
 function skipTimer() {
+    playClick();
     clearInterval(gameState.timerInterval);
     handleTurnEnd();
 }
@@ -245,6 +320,7 @@ function calculateScore(teamPrefix) {
 }
 
 function calculateWinner() {
+    playCheer();
     const t1Score = calculateScore('t1');
     const t2Score = calculateScore('t2');
     
@@ -267,6 +343,7 @@ function calculateWinner() {
 }
 
 function resetGame() {
+    playClick();
     // Reset inputs in rubric
     document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
     document.querySelectorAll('input[type="range"]').forEach(r => { r.value = 0; r.dispatchEvent(new Event('input')); });

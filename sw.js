@@ -5,6 +5,7 @@ const ASSETS_TO_CACHE = [
   './style.css',
   './script.js',
   './manifest.json',
+  './icon.png',
   'https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap'
 ];
 

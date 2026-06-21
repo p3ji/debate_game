@@ -8,8 +8,8 @@
   "theme_color": "#FF6B6B",
   "icons": [
     {
-      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Star_icon_1.svg/512px-Star_icon_1.svg.png",
-      "sizes": "512x512",
+      "src": "./icon.png",
+      "sizes": "1024x1024",
       "type": "image/png"
     }
   ]
